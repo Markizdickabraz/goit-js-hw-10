@@ -1,6 +1,7 @@
 import Notiflix from "notiflix";
 
 const countryList = document.querySelector('.country-list');
+countryList.style.listStyle = 'none';
 const countryInfo = document.querySelector('.country-info');
 const input = document.querySelector('#search-box');
 // console.dir(input);
@@ -24,18 +25,15 @@ export default function fetchCountries(name) {
           
             r.json().then(function (data) {
                 console.log('data', data.length)
-                // console.log(data.value);
+                console.log(data);
                 if (data.length > 10) {
                  Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
                 }
                 if (data.length > 2 && data.length <= 10) {
-                    for (let i = 0; i < data.length; i+=1) {
-                        const markup = data.map(({ flags, name }) => {
-                            `<li><p>${flags}</p><p>${name}</p>`
-                        })
+                        const markup = data.map(({flags, name}) => 
+                            `<li><img src="${flags.svg}"alt ="flags ${name}" width = 20> ${name}</li>`).join("");
+                        countryList.insertAdjacentHTML("afterbegin", markup);
                         console.log(markup);
-                        countryList.insertAdjacentHTML("afterbegin", markup)
-                    }
                 }
             });
 
