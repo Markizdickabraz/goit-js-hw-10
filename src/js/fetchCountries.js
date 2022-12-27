@@ -1,5 +1,6 @@
 export { fetchCountries };
 import Notiflix from "notiflix";
+import renderList from "../index";
 
 const countryList = document.querySelector('.country-list');
 countryList.style.listStyle = 'none';
@@ -7,6 +8,7 @@ const countryInfo = document.querySelector('.country-info');
 countryInfo.style.listStyle = 'none';
 const input = document.querySelector('#search-box');
 // console.dir(input);
+
 function ZEROINGHTML() {
     countryList.innerHTML = " ";
     countryInfo.innerHTML = " ";
@@ -28,31 +30,8 @@ function fetchCountries(name) {
             if (!r.ok) {
                 Notiflix.Notify.failure('Oops, there is no country with that name');
             }
-            r.json().then(function (data) {
-
-                function makeCountryList() {
-                const markupCoutryList = data.map(({flags, name}) => 
-                            `<li class = "list__item"><img src="${flags.svg}"alt ="flags ${name}" width = 20> ${name}</li>`).join("");
-                    countryList.insertAdjacentHTML("afterbegin", markupCoutryList);
-                        };
-
-                if (data.length > 10) {
-                 Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
-                }
-                if (data.length > 2 && data.length <= 10) {
-                    ZEROINGHTML();
-                    makeCountryList();
-                }
-                if (data.length == 1) {
-                    ZEROINGHTML();
-                    makeCountryList();
-                    const markupCoutryInfo = data.map(({capital, population, languages }) =>`<li class= "list__item">Capital:${capital}</li>
-                    <li class= "list__item">population:${population}</li>
-                    <li class = "list__item">languages:${languages[0].name}</li>`)
-                    countryInfo.insertAdjacentHTML("afterbegin" ,markupCoutryInfo)
-                }
-            });
+           return r.json()
 
         }
-    );
+    ).then(renderList)
 };
