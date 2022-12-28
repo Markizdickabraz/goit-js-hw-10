@@ -1,19 +1,9 @@
 export { fetchCountries };
 import Notiflix from "notiflix";
 import renderList from "../index";
+import {ZEROINGHTML} from "../index";
 
-const countryList = document.querySelector('.country-list');
-countryList.style.listStyle = 'none';
-const countryInfo = document.querySelector('.country-info');
-countryInfo.style.listStyle = 'none';
 const input = document.querySelector('#search-box');
-// console.dir(input);
-
-function ZEROINGHTML() {
-    countryList.innerHTML = " ";
-    countryInfo.innerHTML = " ";
-};
-
 let name = null;
 
 const URL = 'https://restcountries.com/v2/name/';
